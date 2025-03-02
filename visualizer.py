@@ -165,7 +165,7 @@ class TensorVisualizer:
             self.img_plots_2d.append(img)
             self.fig_2d.colorbar(img, ax=ax, shrink=0.7)
 
-        self.fig_2d.tight_layout(pad=3.0)  # Increased padding for better title visibility
+        self.fig_2d = plt.Figure(figsize=(10, 8), dpi=100, constrained_layout=True)
         self.update_2d_plots()
 
     def setup_3d_visualization(self):
@@ -286,9 +286,6 @@ class TensorVisualizer:
 
             if extent:
                 img.set_extent(extent)
-
-        # Adjust layout to prevent title cropping
-        self.fig_2d.tight_layout(pad=3.0)
 
         # Just redraw the canvas, don't recalculate layout
         self.canvas_2d.draw_idle()
