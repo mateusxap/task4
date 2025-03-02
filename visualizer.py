@@ -88,7 +88,8 @@ class TensorVisualizer:
                 from_=0,
                 to=self.shape[i] - 1,
                 orient=tk.HORIZONTAL,
-                variable=var
+                variable=var,
+                command=lambda value, idx=i: self.on_slider_change(value, idx)
             )
             scale.bind("<ButtonRelease-1>", lambda e, idx=i: self.on_slider_release(idx))
             scale.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
@@ -124,6 +125,11 @@ class TensorVisualizer:
         ttk.Button(btn_frame, text="Generate Random Tensor", command=self.generate_random_tensor).pack(side=tk.LEFT, padx=5)
         # Изменили кнопку: теперь "Import Tensor" вместо "Export Tensor"
         ttk.Button(btn_frame, text="Import Tensor", command=self.import_tensor).pack(side=tk.LEFT, padx=5)
+
+    def on_slider_change(self, value, dim_idx):
+        """Обработка события изменения слайдера (для обеспечения целых значений)"""
+        value = round(float(value))
+        self.dim_vars[dim_idx].set(value)
 
     def on_slider_release(self, dim_idx):
         """Обработка события отпускания слайдера"""
